@@ -66,3 +66,4 @@ Complemented by an **M.Sc. in Sustainable Energy Systems** with hands-on BESS mo
 ---
 
 *Built with vanilla HTML · CSS · JavaScript · No frameworks · No dependencies*
+
