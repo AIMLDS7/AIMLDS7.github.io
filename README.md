@@ -20,13 +20,13 @@ Complemented by an **M.Sc. in Sustainable Energy Systems** with hands-on BESS mo
 
 | Section | Description |
 |---|---|
-| [Experience](#) | EPCC & EPC project roles across UAE, India & Austria |
-| [Skills & Tools](#) | Cost control, contracts, BESS, SAP MM, Power BI & more |
-| [GitHub & Open Source](#) | Python repos: BESS dispatch, ML forecasting, EU markets |
-| [Education](#) | M.Sc. Sustainable Energy Systems + B.E. Civil Engineering |
-| [Certifications](#) | Professional credentials & training |
-| [ATS Keywords](#) | Full keyword bank for recruiters & ATS systems |
-| [Contact](#) | Get in touch directly via the site |
+| [Experience](https://AIMLDS7.github.io/#experience) | EPCC & EPC project roles across UAE, India & Austria |
+| [Skills & Tools](https://AIMLDS7.github.io/#skills) | Cost control, contracts, BESS, SAP MM, Power BI & more |
+| [GitHub & Open Source](https://AIMLDS7.github.io/#github) | Python repos: BESS dispatch, ML forecasting, EU markets |
+| [Education](https://AIMLDS7.github.io/#education) | M.Sc. Sustainable Energy Systems + B.E. Civil Engineering |
+| [Certifications](https://AIMLDS7.github.io/#certifications) | Professional credentials & training |
+| [ATS Keywords](https://AIMLDS7.github.io/#ats) | Full keyword bank for recruiters & ATS systems |
+| [Contact](https://AIMLDS7.github.io/#contact) | Get in touch directly via the site |
 
 ---
 
