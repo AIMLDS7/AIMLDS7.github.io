@@ -805,11 +805,19 @@ main{counter-reset:section}
         <label for="cf-msg">Message</label>
         <textarea id="cf-msg" placeholder="Tell me about the opportunity or what you'd like to discuss..."></textarea>
       </div>
+      <div class="fgroup" style="margin-bottom:14px">
+        <label style="display:flex;align-items:flex-start;gap:10px;font-size:.78rem;color:rgba(255,255,255,.4);text-transform:none;letter-spacing:0;cursor:pointer">
+          <input type="checkbox" id="cf-consent" required style="margin-top:3px;accent-color:#10b981;flex-shrink:0;width:16px;height:16px">
+          <span>I agree that my data is processed to answer my enquiry. See <a href="/privacy.html" target="_blank" rel="noopener" style="color:var(--ac);text-decoration:underline">Privacy Policy</a>.</span>
+        </label>
+      </div>
+
       <button type="submit" class="cf-submit" id="cf-submit">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
         Send Message
       </button>
       <div class="form-msg" id="form-msg"></div>
+      <p style="font-size:.72rem;color:rgba(255,255,255,.25);margin-top:12px;line-height:1.6">By sending, you agree to the processing of your data to answer your enquiry. No newsletter, no sharing. See <a href="/privacy.html" style="color:rgba(255,255,255,.45);text-decoration:underline">Privacy Policy</a>.</p>
       </form>
     </div>
   </div>
@@ -825,6 +833,7 @@ main{counter-reset:section}
   <div class="footer-main">
     <div class="ft">Darshit <em>Gohel</em> · Cost & Contracts</div>
     <div class="flinks">
+      <a href="/privacy.html">Privacy & Impressum</a>
       <a href="mailto:er.darshit7@gmail.com" target="_blank" rel="noopener noreferrer">Email</a>
       <a href="https://linkedin.com/in/darshitgohel" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile (opens in new tab)">LinkedIn</a>
       <a href="https://github.com/AIMLDS7" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile (opens in new tab)">GitHub</a>
@@ -1354,6 +1363,7 @@ async function submitForm(event){
   event.preventDefault();
   const name    = document.getElementById('cf-name').value.trim();
   const email   = document.getElementById('cf-email').value.trim();
+  const consent = document.getElementById('cf-consent')?.checked || false;
   const subject = document.getElementById('cf-subject').value.trim();
   const msg     = document.getElementById('cf-msg').value.trim();
   const msgEl   = document.getElementById('form-msg');
@@ -1364,6 +1374,12 @@ async function submitForm(event){
     msgEl.textContent='Please fill in Name, Email, and Message.';
     return;
   }
+  if(!consent){
+    msgEl.className='form-msg err';
+    msgEl.textContent='Please accept the privacy notice to send your message.';
+    return;
+  }
+
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
     msgEl.className='form-msg err';
     msgEl.textContent='Please enter a valid email address.';
