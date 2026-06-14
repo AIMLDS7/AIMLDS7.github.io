@@ -4,7 +4,7 @@
 
 🌐 Live → https://aimlds7.github.io/
 
-Commercial professional with **7+ years** EPCC experience — Samsung C&T Fujairah F3 2,400 MW CCGT (USD 977M), Jio World Centre (USD 2.2B) — + MSc Sustainable Energy Systems, FH Upper Austria. BESS dispatch modelling, EU balancing markets, ML price forecasting.
+Commercial professional with **7+ years** EPCC experience — Samsung C&T Fujairah F3 2,400 MW CCGT (USD 977M), Jio World Centre (USD 3.2B) — + MSc Sustainable Energy Systems, FH Upper Austria. BESS dispatch modelling, EU balancing markets, ML price forecasting.
 
 📍 Wels, Austria · Open to EU relocation · RWR Karte eligible
 
