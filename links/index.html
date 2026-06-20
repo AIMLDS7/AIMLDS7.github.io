@@ -603,8 +603,8 @@ body::after {
   margin-bottom: 20px;
 }
 #qr-canvas {
-  width: 220px;
-  height: 220px;
+  width: 260px;
+  height: 260px;
   border-radius: 16px;
   background: white;
   margin: 0 auto;
@@ -1082,33 +1082,27 @@ function renderQR() {
     var size = qr.getModuleCount();
     var margin = 4; // standard QR quiet zone (4 modules) for reliable camera scanning
     var totalSize = size + margin * 2;
-    var scale = Math.floor(240 / totalSize);
-    if (scale < 4) scale = 4;
+    var displayPx = 260;
+    var scale = Math.floor(displayPx / totalSize);
+    if (scale < 6) scale = 6;
     canvas.width = totalSize * scale;
     canvas.height = totalSize * scale;
-    canvas.style.width = '220px';
-    canvas.style.height = '220px';
+    canvas.style.width = displayPx + 'px';
+    canvas.style.height = displayPx + 'px';
 
     // White background
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Dark modules
+    // Dark modules — sharp squares (no corner rounding) for maximum
+    // compatibility with phone camera QR scanners
     ctx.fillStyle = '#0a0f14';
-    var r = Math.max(1, scale * 0.15);
     for (var y = 0; y < size; y++) {
       for (var x = 0; x < size; x++) {
         if (qr.isDark(y, x)) {
           var px = (x + margin) * scale;
           var py = (y + margin) * scale;
-          var s = scale - 1;
-          ctx.beginPath();
-          if (ctx.roundRect) {
-            ctx.roundRect(px + 0.5, py + 0.5, s, s, r);
-          } else {
-            ctx.rect(px + 0.5, py + 0.5, s, s);
-          }
-          ctx.fill();
+          ctx.fillRect(px, py, scale, scale);
         }
       }
     }
