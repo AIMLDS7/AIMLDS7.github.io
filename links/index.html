@@ -135,12 +135,13 @@ body::after {
   animation: fadeUp 0.7s var(--transition) both;
 }
 .page > *:nth-child(1) { animation-delay: 0.05s; }
-.page > *:nth-child(2) { animation-delay: 0.12s; }
-.page > *:nth-child(3) { animation-delay: 0.20s; }
-.page > *:nth-child(4) { animation-delay: 0.28s; }
-.page > *:nth-child(5) { animation-delay: 0.35s; }
-.page > *:nth-child(6) { animation-delay: 0.42s; }
-.page > *:nth-child(7) { animation-delay: 0.48s; }
+.page > *:nth-child(2) { animation-delay: 0.10s; }
+.page > *:nth-child(3) { animation-delay: 0.16s; }
+.page > *:nth-child(4) { animation-delay: 0.22s; }
+.page > *:nth-child(5) { animation-delay: 0.28s; }
+.page > *:nth-child(6) { animation-delay: 0.34s; }
+.page > *:nth-child(7) { animation-delay: 0.40s; }
+.page > *:nth-child(8) { animation-delay: 0.46s; }
 
 /* ============================
    HERO CARD
@@ -236,6 +237,79 @@ body::after {
   white-space: nowrap;
 }
 .pill svg { flex-shrink: 0; }
+
+/* ============================
+   MY LINK BAR
+   ============================ */
+.my-link-bar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-top: 16px;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-s);
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+.my-link-url {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  text-decoration: none;
+  color: var(--text-2);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color var(--transition);
+  -webkit-tap-highlight-color: transparent;
+}
+.my-link-url:hover {
+  color: var(--text);
+}
+.my-link-url svg {
+  flex-shrink: 0;
+  width: 15px; height: 15px;
+  color: var(--teal);
+}
+.my-link-copy {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 12px 16px;
+  background: transparent;
+  border: none;
+  border-left: 1px solid var(--border);
+  color: var(--teal);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all var(--transition);
+  -webkit-tap-highlight-color: transparent;
+  white-space: nowrap;
+}
+.my-link-copy svg {
+  width: 14px; height: 14px;
+}
+.my-link-copy:hover {
+  background: rgba(62,201,181,0.08);
+  color: var(--teal-l);
+}
+.my-link-copy:active {
+  transform: scale(0.96);
+}
 
 /* ============================
    SECTION DIVIDER
@@ -687,6 +761,18 @@ footer {
     </div>
   </div>
 
+  <!-- ========== MY LINK BAR ========== -->
+  <div class="my-link-bar">
+    <a class="my-link-url" href="https://aimlds7.github.io/links/" target="_blank" rel="noopener" title="Open this page">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <span>aimlds7.github.io/links</span>
+    </a>
+    <button class="my-link-copy" onclick="copyMyLink()" aria-label="Copy link">
+      <svg viewBox="0 0 24 24" fill="none" id="copy-icon"><rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2"/></svg>
+      <span id="copy-label">Copy</span>
+    </button>
+  </div>
+
   <!-- ========== CONNECT ========== -->
   <div class="section-label"><span>Connect</span></div>
 
@@ -728,13 +814,13 @@ footer {
     </a>
 
     <!-- Email -->
-    <a class="link-card" href="/cdn-cgi/l/email-protection#6401164a000516170c0d1053240309050d084a070b09">
+    <a class="link-card" href="/cdn-cgi/l/email-protection#a0c5d28ec4c1d2d3c8c9d497e0c7cdc1c9cc8ec3cfcd">
       <div class="link-icon email">
         <svg viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="3" stroke="currentColor" stroke-width="2"/><path d="M2 7l10 6 10-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </div>
       <div class="link-body">
         <div class="link-title">Email</div>
-        <div class="link-desc"><span class="__cf_email__" data-cfemail="ea8f98c48e8b989982839eddaa8d878b8386c4898587">[email&#160;protected]</span></div>
+        <div class="link-desc"><span class="__cf_email__" data-cfemail="d7b2a5f9b3b6a5a4bfbea3e097b0bab6bebbf9b4b8ba">[email&#160;protected]</span></div>
       </div>
       <svg class="link-arrow" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </a>
@@ -789,7 +875,7 @@ footer {
 
   <!-- ========== FOOTER ========== -->
   <footer>
-    <p class="footer-line">© 2026 Darshitkumar Gohel</p>
+    <a href="https://aimlds7.github.io/links/" class="footer-line" style="text-decoration:none;">aimlds7.github.io/links</a>
   </footer>
 
 </div><!-- .page -->
@@ -865,6 +951,25 @@ function showToast(msg, duration) {
   document.getElementById('toast-msg').textContent = msg;
   t.classList.add('show');
   setTimeout(function() { t.classList.remove('show'); }, duration);
+}
+
+// ============================
+// COPY MY LINK
+// ============================
+function copyMyLink() {
+  navigator.clipboard.writeText(PAGE_URL).then(function() {
+    var label = document.getElementById('copy-label');
+    var icon = document.getElementById('copy-icon');
+    label.textContent = 'Copied!';
+    icon.innerHTML = '<path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>';
+    showToast('Link copied to clipboard');
+    setTimeout(function() {
+      label.textContent = 'Copy';
+      icon.innerHTML = '<rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2"/>';
+    }, 2000);
+  }).catch(function() {
+    showToast('Could not copy link');
+  });
 }
 
 // ============================
@@ -1051,5 +1156,5 @@ document.addEventListener('keydown', function(e) {
 });
 </script>
 
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a0ecbcd23cc2c2c5',t:'MTc4MTk3OTEwMw=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a0ecc6b80c4e5b13',t:'MTc4MTk3OTUwOA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
