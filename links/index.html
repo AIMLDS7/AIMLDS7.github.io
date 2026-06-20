@@ -603,12 +603,12 @@ body::after {
   margin-bottom: 20px;
 }
 #qr-canvas {
-  width: 200px;
-  height: 200px;
+  width: 220px;
+  height: 220px;
   border-radius: 16px;
   background: white;
-  padding: 12px;
   margin: 0 auto;
+  display: block;
 }
 
 /* ============================
@@ -814,13 +814,13 @@ footer {
     </a>
 
     <!-- Email -->
-    <a class="link-card" href="/cdn-cgi/l/email-protection#a0c5d28ec4c1d2d3c8c9d497e0c7cdc1c9cc8ec3cfcd">
+    <a class="link-card" href="/cdn-cgi/l/email-protection#e48196ca808596978c8d90d3a48389858d88ca878b89">
       <div class="link-icon email">
         <svg viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="3" stroke="currentColor" stroke-width="2"/><path d="M2 7l10 6 10-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </div>
       <div class="link-body">
         <div class="link-title">Email</div>
-        <div class="link-desc"><span class="__cf_email__" data-cfemail="d7b2a5f9b3b6a5a4bfbea3e097b0bab6bebbf9b4b8ba">[email&#160;protected]</span></div>
+        <div class="link-desc"><span class="__cf_email__" data-cfemail="7b1e09551f1a090813120f4c3b1c161a121755181416">[email&#160;protected]</span></div>
       </div>
       <svg class="link-arrow" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </a>
@@ -922,10 +922,10 @@ footer {
   <span id="toast-msg">Copied to clipboard</span>
 </div>
 
-<!-- ========== QR LIBRARY (qr-code-generator, MIT, inline) ========== -->
+<!-- ========== QR CODE GENERATOR ========== -->
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-// Minimal QR Code generator — adapted from Project Nayuki (MIT License)
-var QRCode=(function(){function t(t,e){this.version=t;this.errorCorrectionLevel=e;this.modules=[];this.isFunction=[];var n=17+4*t;for(var r=0;r<n;r++){this.modules.push([]);this.isFunction.push([]);for(var i=0;i<n;i++){this.modules[r].push(false);this.isFunction[r].push(false)}}this.drawFunctionPatterns();var a=this.addEccAndInterleave(t>1?o(t,e):s(t,e));this.drawCodewords(a);this.drawFormatBits(0);this.applyMask(this.chooseBestMask())}t.encodeText=function(e){var n=t.encodeSegments(u(e),t.Ecc.MEDIUM);return n};t.encodeSegments=function(e,r,i,o){if(i===void 0)i=1;if(o===void 0)o=40;for(var a=i;;a++){var s=4*a+17;var l=c.getNumRawDataModules(a)-c.getNumErrorCorrectionCodewords(a,r)*8;var u=0;for(var f=0;f<e.length;f++){var h=e[f];u+=4+n(h.mode,a)+h.getData().length}if(u<=l)break;if(a>=o)throw"Data too long"}for(var p=0;p<[t.Ecc.MEDIUM,t.Ecc.QUARTILE,t.Ecc.HIGH].length;p++){var d=[t.Ecc.MEDIUM,t.Ecc.QUARTILE,t.Ecc.HIGH][p];if(u<=c.getNumRawDataModules(a)-c.getNumErrorCorrectionCodewords(a,d)*8&&d.ordinal>=r.ordinal)r=d}var v=[];for(var f=0;f<e.length;f++){var h=e[f];v.push.apply(v,[].concat(g(h.mode.modeBits,4),g(h.getData().length,n(h.mode,a)),h.getData()))}var m=c.getNumRawDataModules(a)-c.getNumErrorCorrectionCodewords(a,r)*8;v.push.apply(v,g(0,Math.min(4,m-v.length)));v.push.apply(v,g(0,(8-v.length%8)%8));for(;v.length<m;){v.push.apply(v,g(236,8));if(v.length<m)v.push.apply(v,g(17,8))}return new t(a,r)};var e=t.prototype;e.getModule=function(t,e){return t>=0&&t<this.modules.length&&e>=0&&e<this.modules.length&&this.modules[e][t]};e.drawFunctionPatterns=function(){for(var t=0;t<this.modules.length;t++){this.setFunctionModule(6,t,t%2==0);this.setFunctionModule(t,6,t%2==0)}this.drawFinderPattern(3,3);this.drawFinderPattern(this.modules.length-4,3);this.drawFinderPattern(3,this.modules.length-4);var e=this.getAlignmentPatternPositions();for(var n=0;n<e.length;n++){for(var r=0;r<e.length;r++){if(n==0&&r==0||n==0&&r==e.length-1||n==e.length-1&&r==0)continue;this.drawAlignmentPattern(e[n],e[r])}}this.drawFormatBits(0);if(this.version>=7){for(var i=0;i<18;i++){var o=this.version>=7?c.VERSION_ENCODE_TABLE[this.version-7]:-1;var a=o>>i&1;this.setFunctionModule(this.modules.length-11+i%3,Math.floor(i/3),a!=0);this.setFunctionModule(Math.floor(i/3),this.modules.length-11+i%3,a!=0)}}};e.drawFormatBits=function(t){for(var e=this.errorCorrectionLevel.formatBits<<3|t,n=e,r=0;r<10;r++)n=n<<1^(n>>9)*1335;var i=(e<<10|n)^21522;for(var o=0;o<=5;o++)this.setFunctionModule(8,o,((i>>o)&1)!=0);this.setFunctionModule(8,7,((i>>6)&1)!=0);this.setFunctionModule(8,8,((i>>7)&1)!=0);this.setFunctionModule(7,8,((i>>8)&1)!=0);for(var o=9;o<15;o++)this.setFunctionModule(14-o,8,((i>>o)&1)!=0);for(var o=0;o<8;o++)this.setFunctionModule(this.modules.length-1-o,8,((i>>o)&1)!=0);for(var o=8;o<15;o++)this.setFunctionModule(8,this.modules.length-15+o,((i>>o)&1)!=0);this.setFunctionModule(8,this.modules.length-8,true)};e.drawFinderPattern=function(t,e){for(var n=-4;n<=4;n++){for(var r=-4;r<=4;r++){var i=Math.max(Math.abs(r),Math.abs(n));var o=t+r,a=e+n;if(o>=0&&o<this.modules.length&&a>=0&&a<this.modules.length)this.setFunctionModule(o,a,i!=2&&i!=4)}}};e.drawAlignmentPattern=function(t,e){for(var n=-2;n<=2;n++){for(var r=-2;r<=2;r++)this.setFunctionModule(t+r,e+n,Math.max(Math.abs(r),Math.abs(n))!=1)}};e.setFunctionModule=function(t,e,n){this.modules[e][t]=n;this.isFunction[e][t]=true};e.addEccAndInterleave=function(t){var e=this.version,n=this.errorCorrectionLevel;var r=c.NUM_ERROR_CORRECTION_BLOCKS[n.ordinal][e],i=c.ECC_CODEWORDS_PER_BLOCK[n.ordinal][e];var o=Math.floor(c.getNumRawDataModules(e)/8),a=c.getNumErrorCorrectionCodewords(e,n);var s=Math.floor(o/r),l=o%r,u=s-i;for(var f=[],p=h(i),d=0;d<r;d++){var v=t.splice(0,d<r-l?u:u+1);var m=h(i);for(var g=0;g<m.length;g++)m[g]=0;for(var y=0;y<v.length;y++){var b=v[y]^m.shift();if(b!=0){for(var g=0;g<m.length;g++)m[g]^=x(w(b)+p[g])}m.push(0)}f.push(v.concat(m.slice(0,i)))}var _=[];for(var g=0;g<f[0].length;g++){for(var d=0;d<f.length;d++){if(g<u+1||d>=r-l)_.push(f[d][g])}}return _};e.drawCodewords=function(t){var e=0;for(var n=this.modules.length-1;n>=1;n-=2){if(n==6)n=5;for(var r=0;r<this.modules.length;r++){for(var i=0;i<2;i++){var o=n-i;var a=(n+1&2)==0?this.modules.length-1-r:r;if(!this.isFunction[a][o]&&e<t.length*8){this.modules[a][o]=((t[e>>3]>>(7-(e&7)))&1)!=0;e++}}}}};e.applyMask=function(t){for(var e=0;e<this.modules.length;e++){for(var n=0;n<this.modules.length;n++){var r;switch(t){case 0:r=(e+n)%2==0;break;case 1:r=e%2==0;break;case 2:r=n%3==0;break;case 3:r=(e+n)%3==0;break;case 4:r=(Math.floor(e/2)+Math.floor(n/3))%2==0;break;case 5:r=e*n%2+e*n%3==0;break;case 6:r=(e*n%2+e*n%3)%2==0;break;case 7:r=((e+n)%2+e*n%3)%2==0;break}if(!this.isFunction[e][n]&&r)this.modules[e][n]=!this.modules[e][n]}}};e.chooseBestMask=function(){var t=-1,e=0;for(var n=0;n<8;n++){this.drawFormatBits(n);this.applyMask(n);var r=this.getPenaltyScore();if(t==-1||r<t){t=r;e=n}this.applyMask(n)}this.drawFormatBits(e);this.applyMask(e);return e};e.getPenaltyScore=function(){var t=0;var e=this.modules.length;for(var n=0;n<e;n++){for(var r=false,i=0,o=0;o<e;o++){if(this.modules[n][o]==r){i++;if(i==5)t+=3;else if(i>5)t++}else{r=this.modules[n][o];i=1}}}{for(var o=0;o<e;o++){for(var r=false,i=0,n=0;n<e;n++){if(this.modules[n][o]==r){i++;if(i==5)t+=3;else if(i>5)t++}else{r=this.modules[n][o];i=1}}}}for(var n=0;n<e-1;n++){for(var o=0;o<e-1;o++){var a=this.modules[n][o];if(a==this.modules[n][o+1]&&a==this.modules[n+1][o]&&a==this.modules[n+1][o+1])t+=3}}for(var n=0;n<e;n++){for(var o=0;o<e;o++){var s=0;for(var l=0;l<7&&o+l<e;l++)s=s<<1|(this.modules[n][o+l]?1:0);if((o+6<e)&&(s==93||s==1488))t+=40}}{for(var o=0;o<e;o++){for(var n=0;n<e;n++){var s=0;for(var l=0;l<7&&n+l<e;l++)s=s<<1|(this.modules[n+l][o]?1:0);if((n+6<e)&&(s==93||s==1488))t+=40}}}var u=0;for(var n=0;n<e;n++)for(var o=0;o<e;o++)if(this.modules[n][o])u++;var c=e*e;t+=Math.abs(Math.ceil(u*20/c)-10)*10;return t};e.getAlignmentPatternPositions=function(){if(this.version==1)return[];var t=Math.floor(this.version/7)+2;var e=this.version==32?26:Math.ceil((this.version*4+4)/(2*t-2))*2;var n=[6];for(var r=this.modules.length-7;n.length<t;r-=e)n.splice(1,0,r);return n};t.Ecc={LOW:{ordinal:0,formatBits:1},MEDIUM:{ordinal:1,formatBits:0},QUARTILE:{ordinal:2,formatBits:3},HIGH:{ordinal:3,formatBits:2}};return t;function n(t,e){return t==r.NUMERIC?e<10?10:e<27?12:14:t==r.ALPHANUMERIC?e<10?9:e<27?11:13:t==r.BYTE?e<10?8:16:e<10?8:e<27?10:12}function s(t,e){var n=c.getNumRawDataModules(t)/8-c.getNumErrorCorrectionCodewords(t,e);var r=[];for(var i=0;i<n;i++)r.push(0);return r}function o(t,e){var n=s(t,e),r=c.getNumRawDataModules(t)/8-c.getNumErrorCorrectionCodewords(t,e),i=0;return n}function g(t,e){var n=[];for(var r=e-1;r>=0;r--)n.push((t>>r)&1);return n}function u(t){for(var n=[],i=0;i<t.length;){var o=t.charCodeAt(i);if(o<128){n.push(o);i++}else if(o<2048){n.push(192|o>>6);n.push(128|o&63);i++}else if(o>=55296&&o<57344){var a=65536+(o-55296)*1024+(t.charCodeAt(i+1)-56320);n.push(240|a>>18);n.push(128|a>>12&63);n.push(128|a>>6&63);n.push(128|a&63);i+=2}else{n.push(224|o>>12);n.push(128|o>>6&63);n.push(128|o&63);i++}}return[new e(r.BYTE,n)]}function e(t,e){this.mode=t;this.getData=function(){return e.slice()}}var r={NUMERIC:{modeBits:1},ALPHANUMERIC:{modeBits:2},BYTE:{modeBits:4},KANJI:{modeBits:8}};var c={};c.ECC_CODEWORDS_PER_BLOCK=[[-1,7,10,15,20,26,18,20,24,30,18,20,24,26,30,22,24,28,30,28,28,28,28,30,30,26,28,30,30,30,30,30,30,30,30,30,30,30,30,30,30],[-1,10,16,26,18,24,16,18,22,22,26,30,22,22,24,24,28,28,26,26,26,26,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28],[-1,13,22,18,26,18,24,18,22,20,24,28,26,24,20,30,24,28,28,26,30,28,30,30,30,30,28,30,30,30,30,30,30,30,30,30,30,30,30,30,30],[-1,17,28,22,16,22,28,26,26,24,28,24,28,22,24,24,30,28,28,26,28,30,24,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30]];c.NUM_ERROR_CORRECTION_BLOCKS=[[-1,1,1,1,1,1,2,2,2,2,4,4,4,4,4,6,6,6,6,7,8,8,9,9,10,12,12,12,13,14,15,16,17,18,19,19,20,21,22,24,25],[-1,1,1,1,2,2,4,4,4,5,5,5,8,9,9,10,10,11,13,14,16,17,17,18,20,21,23,25,26,28,29,31,33,35,37,38,40,43,45,47,49],[-1,1,1,2,2,4,4,6,6,8,8,8,10,12,16,12,17,16,18,21,20,23,23,25,27,29,34,34,35,38,40,43,45,48,51,53,56,59,62,65,68],[-1,1,1,2,4,4,4,5,6,8,8,11,11,16,16,18,16,19,21,25,25,25,34,30,32,35,37,40,42,45,48,51,54,57,60,63,66,70,74,77,81]];c.VERSION_ENCODE_TABLE=[-1,-1,-1,-1,-1,-1,-1,31892,34236,39577,42195,48118,51042,55367,58893,63784,68472,70749,76311,79154,84390,87683,92361,96236,102084,102881,110507,110734,117786,119615,126325,127568,133589,136944,141498,145311,150283,152622,158308,161089,167017];c.getNumRawDataModules=function(t){var e=(17+4*t)*(17+4*t)-192-32-1;if(t>=2)e-=25*(Math.floor(t/7)+2-1)*(Math.floor(t/7)+2-1)-10*(Math.floor(t/7)+2-1)-10*(Math.floor(t/7)+2-1)+50;if(t>=7)e-=36;return e};c.getNumErrorCorrectionCodewords=function(t,e){return c.ECC_CODEWORDS_PER_BLOCK[e.ordinal][t]*c.NUM_ERROR_CORRECTION_BLOCKS[e.ordinal][t]};var f=[];for(var p=0,d=1;p<256;p++){f.push(d);d=d<<1^(d>>7)*285}var v=new Array(256);for(var p=0;p<255;p++)v[f[p]]=p;function w(t){if(t<0||t>255)throw"out";return v[t]}function x(t){return f[t%255]}function h(t){for(var e=[1],n=0;n<t;n++){var r=[];for(var i=0;i<=e.length;i++){var o=i<e.length?e[i]:0;var a=i>0?e[i-1]:0;r.push(x((w(o)+f[n])%255)^a)}e=r}return e.map(function(t){return w(t)})}})();
+var qrcode=function(){var E=[],L=new Array(256);!function(){for(var x=1,i=0;i<256;i++){E.push(x);x=x<<1;if(x>=256)x^=285}for(var i=0;i<255;i++)L[E[i]]=i}();function gm(a,b){return a===0||b===0?0:E[(L[a]+L[b])%255]}var FB=[1,0,3,2];var ECB=[[-1,7,10,15,20,26,18,20,24,30,18,20,24,26,30,22,24,28,30,28,28,28,28,30,30,26,28,30,30,30,30,30,30,30,30,30,30,30,30,30,30],[-1,10,16,26,18,24,16,18,22,22,26,30,22,22,24,24,28,28,26,26,26,26,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28],[-1,13,22,18,26,18,24,18,22,20,24,28,26,24,20,30,24,28,28,26,30,28,30,30,30,30,28,30,30,30,30,30,30,30,30,30,30,30,30,30,30],[-1,17,28,22,16,22,28,26,26,24,28,24,28,22,24,24,30,28,28,26,28,30,24,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30]];var NB=[[-1,1,1,1,1,1,2,2,2,2,4,4,4,4,4,6,6,6,6,7,8,8,9,9,10,12,12,12,13,14,15,16,17,18,19,19,20,21,22,24,25],[-1,1,1,1,2,2,4,4,4,5,5,5,8,9,9,10,10,11,13,14,16,17,17,18,20,21,23,25,26,28,29,31,33,35,37,38,40,43,45,47,49],[-1,1,1,2,2,4,4,6,6,8,8,8,10,12,16,12,17,16,18,21,20,23,23,25,27,29,34,34,35,38,40,43,45,48,51,53,56,59,62,65,68],[-1,1,1,2,4,4,4,5,6,8,8,11,11,16,16,18,16,19,21,25,25,25,34,30,32,35,37,40,42,45,48,51,54,57,60,63,66,70,74,77,81]];var VE=[-1,-1,-1,-1,-1,-1,-1,31892,34236,39577,42195,48118,51042,55367,58893,63784,68472,70749,76311,79154,84390,87683,92361,96236,102084,102881,110507,110734,117786,119615,126325,127568,133589,136944,141498,145311,150283,152622,158308,161089,167017];function nRaw(v){var s=v*4+17,r=s*s-192-32-1;if(v>=2){var a=Math.floor(v/7)+2;r-=(a-1)*(a-1)*25;r-=(a-1)*2*10;if(a>2)r+=(a-2)*5}if(v>=7)r-=36;return r}function nDC(v,e){return Math.floor(nRaw(v)/8)-ECB[e][v]*NB[e][v]}function ccb(v){return v<=9?8:16}function t2b(t){var b=[];for(var i=0;i<t.length;i++){var c=t.charCodeAt(i);if(c<128)b.push(c);else if(c<2048){b.push(192|(c>>6));b.push(128|(c&63))}else if(c>=55296&&c<56320){var h=c,lo=t.charCodeAt(++i),cp=65536+((h-55296)<<10)+(lo-56320);b.push(240|(cp>>18));b.push(128|((cp>>12)&63));b.push(128|((cp>>6)&63));b.push(128|(cp&63))}else{b.push(224|(c>>12));b.push(128|((c>>6)&63));b.push(128|(c&63))}}return b}function mkGen(d){var c=[1];for(var i=0;i<d;i++){var n=new Array(c.length+1);for(var j=0;j<n.length;j++)n[j]=0;for(var j=0;j<c.length;j++){n[j]^=gm(c[j],E[i]);n[j+1]^=c[j]}c=n}return c}function compECC(data,ne){var g=mkGen(ne),ecc=new Array(ne);for(var i=0;i<ne;i++)ecc[i]=0;for(var i=0;i<data.length;i++){var ld=data[i]^ecc[0];for(var j=0;j<ne-1;j++)ecc[j]=ecc[j+1]^gm(ld,g[j]);ecc[ne-1]=gm(ld,g[ne-1])}return ecc}return{encode:function(text,ecl){if(ecl===undefined)ecl=1;var db=t2b(text),ver=1;for(;ver<=40;ver++){var cap=nDC(ver,ecl),hb=4+ccb(ver);if(hb+db.length*8<=cap*8)break}if(ver>40)throw new Error("Data too long");var dc=nDC(ver,ecl),bits=[],tb=dc*8;function pb(v,l){for(var i=l-1;i>=0;i--)bits.push((v>>i)&1)}pb(4,4);pb(db.length,ccb(ver));for(var i=0;i<db.length;i++)pb(db[i],8);pb(0,Math.min(4,tb-bits.length));while(bits.length%8)bits.push(0);var pd=[236,17],pi=0;while(bits.length<tb){pb(pd[pi],8);pi=(pi+1)%2}var cw=[];for(var i=0;i<bits.length;i+=8){var b=0;for(var j=0;j<8;j++)b=(b<<1)|bits[i+j];cw.push(b)}var nb=NB[ecl][ver],ep=ECB[ecl][ver],sl=Math.floor(dc/nb),nl=dc%nb,bks=[],ebs=[],off=0;for(var i=0;i<nb;i++){var bl=sl+(i>=nb-nl?1:0),bd=cw.slice(off,off+bl);off+=bl;bks.push(bd);ebs.push(compECC(bd,ep))}var res=[];for(var i=0;i<sl+1;i++)for(var j=0;j<nb;j++)if(i<bks[j].length)res.push(bks[j][i]);for(var i=0;i<ep;i++)for(var j=0;j<nb;j++)res.push(ebs[j][i]);var sz=ver*4+17,mod=[],isF=[];for(var y=0;y<sz;y++){mod.push(new Array(sz).fill(false));isF.push(new Array(sz).fill(false))}function sM(x,y,d){mod[y][x]=d;isF[y][x]=true}function dFP(cx,cy){for(var dy=-4;dy<=4;dy++)for(var dx=-4;dx<=4;dx++){var d=Math.max(Math.abs(dx),Math.abs(dy)),x=cx+dx,y=cy+dy;if(x>=0&&x<sz&&y>=0&&y<sz)sM(x,y,d!==2&&d!==4)}}dFP(3,3);dFP(sz-4,3);dFP(3,sz-4);function gAP(){if(ver===1)return[];var na=Math.floor(ver/7)+2,st=ver===32?26:Math.ceil((ver*4+4)/(2*na-2))*2,p=[6];for(var ps=sz-7;p.length<na;ps-=st)p.splice(1,0,ps);return p}var ap=gAP();for(var i=0;i<ap.length;i++)for(var j=0;j<ap.length;j++){if((i===0&&j===0)||(i===0&&j===ap.length-1)||(i===ap.length-1&&j===0))continue;for(var dy=-2;dy<=2;dy++)for(var dx=-2;dx<=2;dx++)sM(ap[j]+dx,ap[i]+dy,Math.max(Math.abs(dx),Math.abs(dy))!==1)}for(var i=0;i<sz;i++){sM(6,i,i%2===0);sM(i,6,i%2===0)}function dFB(mask){var d=FB[ecl]<<3|mask,rm=d;for(var i=0;i<10;i++)rm=(rm<<1)^((rm>>9)*1335);var b=((d<<10)|rm)^21522;for(var i=0;i<=5;i++)sM(8,i,((b>>i)&1)!==0);sM(8,7,((b>>6)&1)!==0);sM(8,8,((b>>7)&1)!==0);sM(7,8,((b>>8)&1)!==0);for(var i=9;i<15;i++)sM(14-i,8,((b>>i)&1)!==0);for(var i=0;i<8;i++)sM(sz-1-i,8,((b>>i)&1)!==0);for(var i=8;i<15;i++)sM(8,sz-15+i,((b>>i)&1)!==0);sM(8,sz-8,true)}dFB(0);if(ver>=7){var vb=VE[ver-7];for(var i=0;i<18;i++){var bt=(vb>>i)&1;sM(sz-11+(i%3),Math.floor(i/3),bt!==0);sM(Math.floor(i/3),sz-11+(i%3),bt!==0)}}var bi=0;for(var rt=sz-1;rt>=1;rt-=2){if(rt===6)rt=5;for(var vt=0;vt<sz;vt++)for(var j=0;j<2;j++){var x=rt-j,up=((rt+1)&2)===0,y=up?sz-1-vt:vt;if(!isF[y][x]&&bi<res.length*8){mod[y][x]=((res[bi>>3]>>(7-(bi&7)))&1)!==0;bi++}}}function aM(mn){for(var y=0;y<sz;y++)for(var x=0;x<sz;x++){if(isF[y][x])continue;var inv=false;switch(mn){case 0:inv=(y+x)%2===0;break;case 1:inv=y%2===0;break;case 2:inv=x%3===0;break;case 3:inv=(y+x)%3===0;break;case 4:inv=(Math.floor(y/2)+Math.floor(x/3))%2===0;break;case 5:inv=(y*x)%2+(y*x)%3===0;break;case 6:inv=((y*x)%2+(y*x)%3)%2===0;break;case 7:inv=((y+x)%2+(y*x)%3)%2===0;break}if(inv)mod[y][x]=!mod[y][x]}}function gP(){var p=0;for(var y=0;y<sz;y++){var r=1;for(var x=1;x<sz;x++){if(mod[y][x]===mod[y][x-1]){r++;if(r===5)p+=3;else if(r>5)p++}else r=1}}for(var x=0;x<sz;x++){var r=1;for(var y=1;y<sz;y++){if(mod[y][x]===mod[y-1][x]){r++;if(r===5)p+=3;else if(r>5)p++}else r=1}}for(var y=0;y<sz-1;y++)for(var x=0;x<sz-1;x++){var c=mod[y][x];if(c===mod[y][x+1]&&c===mod[y+1][x]&&c===mod[y+1][x+1])p+=3}for(var y=0;y<sz;y++)for(var x=0;x+6<sz;x++){var s=0;for(var k=0;k<7;k++)s=(s<<1)|(mod[y][x+k]?1:0);if(s===93||s===1488)p+=40}for(var x=0;x<sz;x++)for(var y=0;y+6<sz;y++){var s=0;for(var k=0;k<7;k++)s=(s<<1)|(mod[y+k][x]?1:0);if(s===93||s===1488)p+=40}var dk=0;for(var y=0;y<sz;y++)for(var x=0;x<sz;x++)if(mod[y][x])dk++;p+=Math.abs(Math.ceil(dk*20/(sz*sz))-10)*10;return p}var bm=0,bp=1e9;for(var m=0;m<8;m++){aM(m);dFB(m);var pe=gP();if(pe<bp){bp=pe;bm=m}aM(m)}aM(bm);dFB(bm);return{version:ver,size:sz,modules:mod}}};
+}();
 </script>
 
 <script>
@@ -994,48 +994,58 @@ function handleShare() {
 // ============================
 // NFC — Web NFC API
 // ============================
-function handleNFC() {
+async function handleNFC() {
+  // Check Web NFC support
   if (!('NDEFReader' in window)) {
-    // Fallback — show instructions
-    showToast('NFC not supported on this browser. Use Chrome on Android.', 3500);
+    showNFCFallback();
     return;
   }
 
-  // Show NFC modal
+  // Show NFC modal immediately
   var modal = document.getElementById('nfc-modal');
   modal.classList.add('active');
-  document.getElementById('nfc-status').textContent = 'Initialising NFC…';
-  document.getElementById('nfc-status-sub').textContent = 'Please wait';
+  setNFCStatus('Requesting NFC access…', 'Please allow NFC permission');
 
   try {
-    var writer = new NDEFReader();
-    writer.write({
+    var ndef = new NDEFReader();
+
+    setNFCStatus('Ready — Tap the Tag', 'Hold your phone near a blank NFC tag');
+
+    await ndef.write({
       records: [
-        { recordType: 'url', data: PAGE_URL },
-        {
-          recordType: 'mime',
-          mediaType: 'text/vcard',
-          data: buildVCardString()
-        }
+        { recordType: 'url', data: PAGE_URL }
       ]
-    }).then(function() {
-      document.getElementById('nfc-status').textContent = 'NFC Tag Written!';
-      document.getElementById('nfc-status-sub').textContent = 'Contact card saved to NFC tag';
-      showToast('NFC tag written successfully');
-      setTimeout(function() { modal.classList.remove('active'); }, 2500);
-    }).catch(function(err) {
-      document.getElementById('nfc-status').textContent = 'Writing…';
-      document.getElementById('nfc-status-sub').textContent = 'Tap an NFC tag now';
     });
 
-    document.getElementById('nfc-status').textContent = 'Ready — Tap the Tag';
-    document.getElementById('nfc-status-sub').textContent = 'Hold your phone near an NFC tag';
+    // Success
+    setNFCStatus('✓ NFC Tag Written!', 'Your contact link is saved on the tag');
+    showToast('NFC tag written successfully');
+    setTimeout(function() { modal.classList.remove('active'); }, 2500);
 
-  } catch (e) {
-    document.getElementById('nfc-status').textContent = 'NFC Error';
-    document.getElementById('nfc-status-sub').textContent = e.message || 'Could not access NFC';
+  } catch (err) {
+    if (err.name === 'AbortError') {
+      setNFCStatus('Cancelled', 'NFC write was cancelled');
+    } else if (err.name === 'NotAllowedError') {
+      setNFCStatus('Permission Denied', 'Please allow NFC access in browser settings');
+    } else if (err.name === 'NotSupportedError') {
+      setNFCStatus('Not Supported', 'NFC is not available on this device');
+    } else {
+      setNFCStatus('Error', err.message || 'Could not write to NFC tag');
+    }
     setTimeout(function() { modal.classList.remove('active'); }, 3000);
   }
+}
+
+function setNFCStatus(title, sub) {
+  document.getElementById('nfc-status').textContent = title;
+  document.getElementById('nfc-status-sub').textContent = sub;
+}
+
+function showNFCFallback() {
+  // Show the modal with instructions instead of just a toast
+  var modal = document.getElementById('nfc-modal');
+  modal.classList.add('active');
+  setNFCStatus('NFC Not Available', 'Web NFC requires Chrome 89+ on Android with NFC hardware. You can still share via QR code, link copy, or the Share button.');
 }
 
 function closeNFCModal() {
@@ -1060,28 +1070,45 @@ function closeModal(e) {
 }
 
 function renderQR() {
-  var canvas = document.getElementById('qr-canvas');
-  var ctx = canvas.getContext('2d');
-  var qr = QRCode.encodeText(PAGE_URL);
-  var size = qr.modules.length;
-  var scale = Math.floor(200 / size);
-  canvas.width = size * scale;
-  canvas.height = size * scale;
-  canvas.style.width = '200px';
-  canvas.style.height = '200px';
+  try {
+    var canvas = document.getElementById('qr-canvas');
+    var ctx = canvas.getContext('2d');
+    var qr = qrcode.encode(PAGE_URL);
+    var size = qr.size;
+    var margin = 2;
+    var totalSize = size + margin * 2;
+    var scale = Math.floor(240 / totalSize);
+    if (scale < 4) scale = 4;
+    canvas.width = totalSize * scale;
+    canvas.height = totalSize * scale;
+    canvas.style.width = '220px';
+    canvas.style.height = '220px';
 
-  ctx.fillStyle = '#ffffff';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // White background
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  ctx.fillStyle = '#0a0f14';
-  for (var y = 0; y < size; y++) {
-    for (var x = 0; x < size; x++) {
-      if (qr.getModule(x, y)) {
-        ctx.beginPath();
-        ctx.roundRect(x * scale + 0.5, y * scale + 0.5, scale - 1, scale - 1, scale * 0.25);
-        ctx.fill();
+    // Dark modules
+    ctx.fillStyle = '#0a0f14';
+    var r = Math.max(1, scale * 0.2);
+    for (var y = 0; y < size; y++) {
+      for (var x = 0; x < size; x++) {
+        if (qr.modules[y][x]) {
+          var px = (x + margin) * scale;
+          var py = (y + margin) * scale;
+          var s = scale - 1;
+          ctx.beginPath();
+          if (ctx.roundRect) {
+            ctx.roundRect(px + 0.5, py + 0.5, s, s, r);
+          } else {
+            ctx.rect(px + 0.5, py + 0.5, s, s);
+          }
+          ctx.fill();
+        }
       }
     }
+  } catch (err) {
+    console.error('QR render error:', err);
   }
 }
 
@@ -1156,5 +1183,5 @@ document.addEventListener('keydown', function(e) {
 });
 </script>
 
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a0ecc6b80c4e5b13',t:'MTc4MTk3OTUwOA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a0ecd7d0ae68c28e',t:'MTc4MTk4MDIwOA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
