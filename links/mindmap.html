@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Darshitkumar Gohel – Mind Map</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; background: #040c07; overflow: hidden; font-family: 'Segoe UI', system-ui, sans-serif; }
+#stage { width: 100vw; height: 100vh; overflow: auto; cursor: grab; }
+#stage:active { cursor: grabbing; }
+#hint { position: fixed; bottom: 16px; right: 20px; font-size: 11px; color: #3a6645; pointer-events: none; letter-spacing: .04em; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <svg id="mm" xmlns="http://www.w3.org/2000/svg" style="display:block"></svg>
+</div>
+<div id="hint">scroll or drag to navigate</div>
+<script>
+const NS = 'http://www.w3.org/2000/svg';
+
+const TREE = {
+  label: ['Darshitkumar Gohel'],
+  ch: [
+    { label: ['Professional', 'Experience'], ch: [
+      { label: ['BESS Business', 'Development Support'], ch: [
+        { label: ['Enery Österreich GmbH'] },
+        { label: ['Market Analysis'] },
+        { label: ['Data Workflows'] }
+      ]},
+      { label: ['EPCC Project', 'Management'], ch: [
+        { label: ['Samsung C&T', '(UAE & India)'] },
+        { label: ['Fujairah F3', '2400MW CCGT'] },
+        { label: ['Jio World Centre'] }
+      ]},
+      { label: ['Commercial', 'Management'], ch: [
+        { label: ['Tata Consulting', 'Engineers'] },
+        { label: ['Gleeds Consulting'] },
+        { label: ['Cost Control', '& Contracts'] }
+      ]}
+    ]},
+    { label: ['Technical', 'Specialization'], ch: [
+      { label: ['Energy Systems'], ch: [
+        { label: ['BESS Modelling'] },
+        { label: ['PV & Wind', 'Engineering'] },
+        { label: ['Grid Integration'] }
+      ]},
+      { label: ['Data Science', '& ML'], ch: [
+        { label: ['Energy Price', 'Forecasting'] },
+        { label: ['Time-Series', 'Analysis'] },
+        { label: ['Optimisation', 'Modeling'] }
+      ]},
+      { label: ['Commercial', 'Rigour'], ch: [
+        { label: ['Procurement', '& Tendering'] },
+        { label: ['Contract', 'Administration'] },
+        { label: ['SAP MM Proficient'] }
+      ]}
+    ]},
+    { label: ['Academic Projects'], ch: [
+      { label: ['Forecasting', '& Analysis'], ch: [
+        { label: ['XGBoost Price', 'Forecaster'] },
+        { label: ['ARIMA Climate', 'Studies'] },
+        { label: ['NASA POWER', 'Data Pipeline'] }
+      ]},
+      { label: ['Design &', 'Engineering'], ch: [
+        { label: ['PV-BESS Simulation', 'Platform'] },
+        { label: ['Sorga Wind', 'Farm (24MW)'] },
+        { label: ['Utility-Scale', 'Solar (27MWp)'] }
+      ]},
+      { label: ['Power Systems', 'Optimization'], ch: [
+        { label: ['GAMS Unit', 'Commitment'] },
+        { label: ['DC Optimal', 'Power Flow'] },
+        { label: ['MIQCP Solvers'] }
+      ]}
+    ]},
+    { label: ['Tech Stack', '& Tools'], ch: [
+      { label: ['Programming'], ch: [
+        { label: ['Python (Pandas,', 'Scikit-Learn)'] },
+        { label: ['MATLAB /', 'Simulink'] },
+        { label: ['GAMS'] }
+      ]},
+      { label: ['Industry', 'Software'], ch: [
+        { label: ['PVsyst &', 'PV*SOL'] },
+        { label: ['windPRO', '& WAsP'] },
+        { label: ['DIgSILENT', 'PowerFactory'] },
+        { label: ['AutoCAD', 'PVcase'] }
+      ]},
+      { label: ['Business Tools'], ch: [
+        { label: ['SAP MM'] },
+        { label: ['Power BI'] },
+        { label: ['MS Project'] }
+      ]}
+    ]},
+    { label: ['Education', '& Training'], ch: [
+      { label: ['Degrees'], ch: [
+        { label: ['MSc Sustainable', 'Energy Systems'] },
+        { label: ['BE Civil', 'Engineering'] }
+      ]},
+      { label: ['Certifications'], ch: [
+        { label: ['McKinsey Forward', 'Program'] },
+        { label: ['Power BI', 'Data Analyst'] },
+        { label: ['World Bank', 'Procurement'] }
+      ]}
+    ]}
+  ]
+};
+
+/* ── layout ── */
+const LW=124, LH=46, LG=10, SG=28, MG=54, PX=52;
+const Y0=62, Y1=180, Y2=315, Y3=462, H=560;
+
+function layout(root) {
+  let cur = PX;
+  root.ch.forEach((main, mi) => {
+    main.ch.forEach((sub, si) => {
+      sub.ch.forEach((leaf, li) => {
+        leaf.cx = cur + LW/2;
+        cur += LW + (li < sub.ch.length-1 ? LG : 0);
+      });
+      sub.cx = sub.ch.reduce((s,l)=>s+l.cx,0)/sub.ch.length;
+      if (si < main.ch.length-1) cur += SG;
+    });
+    main.cx = main.ch.reduce((s,c)=>s+c.cx,0)/main.ch.length;
+    if (mi < root.ch.length-1) cur += MG + LG;
+  });
+  root.cx = root.ch.reduce((s,c)=>s+c.cx,0)/root.ch.length;
+  return cur + PX;
+}
+
+const W = layout(TREE);
+
+/* ── svg setup ── */
+const svg = document.getElementById('mm');
+svg.setAttribute('width',  W);
+svg.setAttribute('height', H);
+
+/* ── helpers ── */
+function el(tag, attrs={}) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k,v] of Object.entries(attrs)) e.setAttribute(k,v);
+  return e;
+}
+
+function box(x,y,w,h,r,fill,stroke,sw=1) {
+  return el('rect',{x,y,width:w,height:h,rx:r,ry:r,fill,stroke,'stroke-width':sw});
+}
+
+function textBlock(cx,cy,lines,fill,fs,fw='normal') {
+  const g = el('g');
+  const lh = fs * 1.38;
+  lines.forEach((txt,i) => {
+    const t = el('text',{
+      x: cx, y: cy + (i - (lines.length-1)/2) * lh,
+      fill, 'font-size': fs, 'font-weight': fw,
+      'font-family': "'Segoe UI',system-ui,sans-serif",
+      'text-anchor': 'middle', 'dominant-baseline': 'middle'
+    });
+    t.textContent = txt;
+    g.appendChild(t);
+  });
+  return g;
+}
+
+function spline(x1,y1,x2,y2,col,sw) {
+  const m = (y1+y2)/2;
+  return el('path',{
+    d:`M${x1} ${y1} C${x1} ${m} ${x2} ${m} ${x2} ${y2}`,
+    fill:'none', stroke:col, 'stroke-width':sw
+  });
+}
+
+/* ── draw ── */
+
+// background
+svg.appendChild(box(0,0,W,H,0,'#040c07','none'));
+
+// subtle vertical separators between main groups
+let sepCur = PX;
+TREE.ch.forEach((main, mi) => {
+  main.ch.forEach((sub, si) => {
+    sub.ch.forEach((leaf, li) => { sepCur += LW + (li < sub.ch.length-1 ? LG : 0); });
+    if (si < main.ch.length-1) sepCur += SG;
+  });
+  if (mi < TREE.ch.length-1) {
+    const sx = sepCur + (MG+LG)/2;
+    const s = el('line',{x1:sx,y1:Y1-28,x2:sx,y2:H-20,stroke:'#0f2018','stroke-width':1,'stroke-dasharray':'3 6'});
+    svg.appendChild(s);
+    sepCur += MG + LG;
+  }
+});
+
+// root
+const RW=218, RH=38;
+svg.appendChild(box(TREE.cx-RW/2, Y0-RH/2, RW, RH, 8, '#183326', '#52a870', 1.5));
+svg.appendChild(textBlock(TREE.cx, Y0, TREE.label, '#d8ffdc', 13.5, '700'));
+
+const MW=148, MH=46, SW=138, SH=46;
+
+TREE.ch.forEach(main => {
+  // root → main
+  svg.appendChild(spline(TREE.cx, Y0+RH/2, main.cx, Y1-MH/2, '#3a7850', 1.3));
+  // main node
+  svg.appendChild(box(main.cx-MW/2, Y1-MH/2, MW, MH, 6, '#0f2318', '#36714d'));
+  svg.appendChild(textBlock(main.cx, Y1, main.label, '#b8e4c0', 11.5, '600'));
+
+  main.ch.forEach(sub => {
+    // main → sub
+    svg.appendChild(spline(main.cx, Y1+MH/2, sub.cx, Y2-SH/2, '#275c3a', 1));
+    // sub node
+    svg.appendChild(box(sub.cx-SW/2, Y2-SH/2, SW, SH, 5, '#091710', '#204d2e'));
+    svg.appendChild(textBlock(sub.cx, Y2, sub.label, '#96c49e', 10.5));
+
+    sub.ch.forEach(leaf => {
+      // sub → leaf
+      svg.appendChild(spline(sub.cx, Y2+SH/2, leaf.cx, Y3-LH/2, '#183e24', 0.9));
+      // leaf node
+      svg.appendChild(box(leaf.cx-LW/2, Y3-LH/2, LW, LH, 4, '#060f09', '#1a3e22'));
+      svg.appendChild(textBlock(leaf.cx, Y3, leaf.label, '#7cb585', 9.5));
+    });
+  });
+});
+
+/* ── pan by drag ── */
+const stage = document.getElementById('stage');
+let dragging=false, ox=0, oy=0, sl=0, st=0;
+stage.addEventListener('mousedown', e=>{
+  dragging=true; ox=e.clientX; oy=e.clientY;
+  sl=stage.scrollLeft; st=stage.scrollTop;
+});
+document.addEventListener('mouseup', ()=>dragging=false);
+document.addEventListener('mousemove', e=>{
+  if(!dragging) return; e.preventDefault();
+  stage.scrollLeft = sl - (e.clientX-ox);
+  stage.scrollTop  = st - (e.clientY-oy);
+});
+</script>
+</body>
+</html>
