@@ -4,236 +4,665 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Darshitkumar Gohel – Mind Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; background: #040c07; overflow: hidden; font-family: 'Segoe UI', system-ui, sans-serif; }
-#stage { width: 100vw; height: 100vh; overflow: auto; cursor: grab; }
-#stage:active { cursor: grabbing; }
-#hint { position: fixed; bottom: 16px; right: 20px; font-size: 11px; color: #3a6645; pointer-events: none; letter-spacing: .04em; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+html,body{
+  width:100%;height:100%;
+  overflow:hidden;
+  font-family:'Inter',system-ui,sans-serif;
+  background:#020b06;
+}
+
+/* Dot-grid atmosphere */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:radial-gradient(rgba(50,150,70,.06) 1px,transparent 1px);
+  background-size:26px 26px;
+  pointer-events:none;
+  z-index:0;
+}
+
+#bg{
+  position:fixed;inset:0;
+  width:100%;height:100%;
+  z-index:1;
+  pointer-events:none;
+}
+
+#vp{
+  position:fixed;inset:0;
+  z-index:2;
+  cursor:grab;
+  overflow:hidden;
+  user-select:none;
+  -webkit-user-select:none;
+}
+#vp.drag{cursor:grabbing}
+
+#mm{
+  position:absolute;
+  top:0;left:0;
+  transform-origin:0 0;
+  will-change:transform;
+}
+
+/* ── Controls ── */
+#ctrl{
+  position:fixed;bottom:26px;left:26px;
+  z-index:10;
+  display:flex;flex-direction:column;gap:5px;
+  padding:7px;
+  background:rgba(3,14,7,.78);
+  border:1px solid rgba(80,180,100,.13);
+  border-radius:14px;
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  box-shadow:0 4px 28px rgba(0,0,0,.45),
+             inset 0 1px 0 rgba(80,200,100,.06);
+}
+.cb{
+  width:33px;height:33px;
+  background:rgba(18,55,28,.45);
+  border:1px solid rgba(80,180,100,.18);
+  border-radius:8px;
+  color:rgba(120,210,140,.85);
+  font-size:14px;font-weight:500;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .18s;
+  line-height:1;
+  font-family:'Inter',system-ui,sans-serif;
+}
+.cb:hover{
+  background:rgba(35,110,55,.32);
+  border-color:rgba(80,215,110,.42);
+  color:#a8f0b8;
+  box-shadow:0 0 14px rgba(60,200,90,.16);
+}
+.cb:active{transform:scale(.93)}
+
+/* ── HUD ── */
+#zd{
+  position:fixed;top:26px;right:26px;
+  z-index:10;
+  font-size:10px;font-weight:500;
+  color:rgba(90,160,105,.45);
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  font-variant-numeric:tabular-nums;
+}
+#hint{
+  position:fixed;bottom:26px;right:26px;
+  z-index:10;
+  font-size:10px;
+  color:rgba(70,130,85,.35);
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+/* ── Per-branch hover glow ── */
+.n{cursor:pointer;transition:filter .22s}
+.b0:hover{filter:drop-shadow(0 0 11px rgba(34,210,90,.72)) drop-shadow(0 0 4px rgba(34,210,90,.45))}
+.b1:hover{filter:drop-shadow(0 0 11px rgba(22,201,160,.72)) drop-shadow(0 0 4px rgba(22,201,160,.45))}
+.b2:hover{filter:drop-shadow(0 0 11px rgba(80,220,133,.72)) drop-shadow(0 0 4px rgba(80,220,133,.45))}
+.b3:hover{filter:drop-shadow(0 0 11px rgba(32,201,132,.72)) drop-shadow(0 0 4px rgba(32,201,132,.45))}
+.b4:hover{filter:drop-shadow(0 0 11px rgba(125,202,142,.72)) drop-shadow(0 0 4px rgba(125,202,142,.45))}
+.root-n:hover{filter:drop-shadow(0 0 18px rgba(82,200,120,.88)) drop-shadow(0 0 6px rgba(82,200,120,.5))}
+
+/* ── Entry animations ── */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(9px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes fadeIn{
+  from{opacity:0}to{opacity:1}
+}
+
+/* prefers-reduced-motion */
+@media(prefers-reduced-motion:reduce){
+  .n,.root-n{animation:none!important;opacity:1!important}
+}
 </style>
 </head>
 <body>
-<div id="stage">
-  <svg id="mm" xmlns="http://www.w3.org/2000/svg" style="display:block"></svg>
-</div>
-<div id="hint">scroll or drag to navigate</div>
-<script>
-const NS = 'http://www.w3.org/2000/svg';
 
-const TREE = {
-  label: ['Darshitkumar Gohel'],
-  ch: [
-    { label: ['Professional', 'Experience'], ch: [
-      { label: ['BESS Business', 'Development Support'], ch: [
-        { label: ['Enery Österreich GmbH'] },
-        { label: ['Market Analysis'] },
-        { label: ['Data Workflows'] }
+<canvas id="bg"></canvas>
+<div id="vp">
+  <svg id="mm" xmlns="http://www.w3.org/2000/svg"></svg>
+</div>
+<div id="ctrl">
+  <button class="cb" id="zi" title="Zoom in (=)">+</button>
+  <button class="cb" id="zo" title="Zoom out (-)">−</button>
+  <button class="cb" id="zf" title="Fit view (0)" style="font-size:11px">⊡</button>
+</div>
+<div id="zd">100%</div>
+<div id="hint">scroll · drag · pinch</div>
+
+<script>
+'use strict';
+const NS='http://www.w3.org/2000/svg';
+
+// ─── DATA ────────────────────────────────────────────────────────────────────
+const TREE={
+  label:['Darshitkumar Gohel'],
+  ch:[
+    {label:['Professional','Experience'],ch:[
+      {label:['BESS Business','Development Support'],ch:[
+        {label:['Enery Österreich GmbH']},
+        {label:['Market Analysis']},
+        {label:['Data Workflows']}
       ]},
-      { label: ['EPCC Project', 'Management'], ch: [
-        { label: ['Samsung C&T', '(UAE & India)'] },
-        { label: ['Fujairah F3', '2400MW CCGT'] },
-        { label: ['Jio World Centre'] }
+      {label:['EPCC Project','Management'],ch:[
+        {label:['Samsung C&T','(UAE & India)']},
+        {label:['Fujairah F3','2400MW CCGT']},
+        {label:['Jio World Centre']}
       ]},
-      { label: ['Commercial', 'Management'], ch: [
-        { label: ['Tata Consulting', 'Engineers'] },
-        { label: ['Gleeds Consulting'] },
-        { label: ['Cost Control', '& Contracts'] }
+      {label:['Commercial','Management'],ch:[
+        {label:['Tata Consulting','Engineers']},
+        {label:['Gleeds Consulting']},
+        {label:['Cost Control','& Contracts']}
       ]}
     ]},
-    { label: ['Technical', 'Specialization'], ch: [
-      { label: ['Energy Systems'], ch: [
-        { label: ['BESS Modelling'] },
-        { label: ['PV & Wind', 'Engineering'] },
-        { label: ['Grid Integration'] }
+    {label:['Technical','Specialization'],ch:[
+      {label:['Energy Systems'],ch:[
+        {label:['BESS Modelling']},
+        {label:['PV & Wind','Engineering']},
+        {label:['Grid Integration']}
       ]},
-      { label: ['Data Science', '& ML'], ch: [
-        { label: ['Energy Price', 'Forecasting'] },
-        { label: ['Time-Series', 'Analysis'] },
-        { label: ['Optimisation', 'Modeling'] }
+      {label:['Data Science','& ML'],ch:[
+        {label:['Energy Price','Forecasting']},
+        {label:['Time-Series','Analysis']},
+        {label:['Optimisation','Modeling']}
       ]},
-      { label: ['Commercial', 'Rigour'], ch: [
-        { label: ['Procurement', '& Tendering'] },
-        { label: ['Contract', 'Administration'] },
-        { label: ['SAP MM Proficient'] }
+      {label:['Commercial','Rigour'],ch:[
+        {label:['Procurement','& Tendering']},
+        {label:['Contract','Administration']},
+        {label:['SAP MM Proficient']}
       ]}
     ]},
-    { label: ['Academic Projects'], ch: [
-      { label: ['Forecasting', '& Analysis'], ch: [
-        { label: ['XGBoost Price', 'Forecaster'] },
-        { label: ['ARIMA Climate', 'Studies'] },
-        { label: ['NASA POWER', 'Data Pipeline'] }
+    {label:['Academic Projects'],ch:[
+      {label:['Forecasting','& Analysis'],ch:[
+        {label:['XGBoost Price','Forecaster']},
+        {label:['ARIMA Climate','Studies']},
+        {label:['NASA POWER','Data Pipeline']}
       ]},
-      { label: ['Design &', 'Engineering'], ch: [
-        { label: ['PV-BESS Simulation', 'Platform'] },
-        { label: ['Sorga Wind', 'Farm (24MW)'] },
-        { label: ['Utility-Scale', 'Solar (27MWp)'] }
+      {label:['Design &','Engineering'],ch:[
+        {label:['PV-BESS Simulation','Platform']},
+        {label:['Sorga Wind','Farm (24MW)']},
+        {label:['Utility-Scale','Solar (27MWp)']}
       ]},
-      { label: ['Power Systems', 'Optimization'], ch: [
-        { label: ['GAMS Unit', 'Commitment'] },
-        { label: ['DC Optimal', 'Power Flow'] },
-        { label: ['MIQCP Solvers'] }
+      {label:['Power Systems','Optimization'],ch:[
+        {label:['GAMS Unit','Commitment']},
+        {label:['DC Optimal','Power Flow']},
+        {label:['MIQCP Solvers']}
       ]}
     ]},
-    { label: ['Tech Stack', '& Tools'], ch: [
-      { label: ['Programming'], ch: [
-        { label: ['Python (Pandas,', 'Scikit-Learn)'] },
-        { label: ['MATLAB /', 'Simulink'] },
-        { label: ['GAMS'] }
+    {label:['Tech Stack','& Tools'],ch:[
+      {label:['Programming'],ch:[
+        {label:['Python (Pandas,','Scikit-Learn)']},
+        {label:['MATLAB /','Simulink']},
+        {label:['GAMS']}
       ]},
-      { label: ['Industry', 'Software'], ch: [
-        { label: ['PVsyst &', 'PV*SOL'] },
-        { label: ['windPRO', '& WAsP'] },
-        { label: ['DIgSILENT', 'PowerFactory'] },
-        { label: ['AutoCAD', 'PVcase'] }
+      {label:['Industry','Software'],ch:[
+        {label:['PVsyst &','PV*SOL']},
+        {label:['windPRO','& WAsP']},
+        {label:['DIgSILENT','PowerFactory']},
+        {label:['AutoCAD','PVcase']}
       ]},
-      { label: ['Business Tools'], ch: [
-        { label: ['SAP MM'] },
-        { label: ['Power BI'] },
-        { label: ['MS Project'] }
+      {label:['Business Tools'],ch:[
+        {label:['SAP MM']},
+        {label:['Power BI']},
+        {label:['MS Project']}
       ]}
     ]},
-    { label: ['Education', '& Training'], ch: [
-      { label: ['Degrees'], ch: [
-        { label: ['MSc Sustainable', 'Energy Systems'] },
-        { label: ['BE Civil', 'Engineering'] }
+    {label:['Education','& Training'],ch:[
+      {label:['Degrees'],ch:[
+        {label:['MSc Sustainable','Energy Systems']},
+        {label:['BE Civil','Engineering']}
       ]},
-      { label: ['Certifications'], ch: [
-        { label: ['McKinsey Forward', 'Program'] },
-        { label: ['Power BI', 'Data Analyst'] },
-        { label: ['World Bank', 'Procurement'] }
+      {label:['Certifications'],ch:[
+        {label:['McKinsey Forward','Program']},
+        {label:['Power BI','Data Analyst']},
+        {label:['World Bank','Procurement']}
       ]}
     ]}
   ]
 };
 
-/* ── layout ── */
-const LW=124, LH=46, LG=10, SG=28, MG=54, PX=52;
-const Y0=62, Y1=180, Y2=315, Y3=462, H=560;
+// ─── BRANCH PALETTES (5 distinct green-family accents) ───────────────────────
+const B=[
+  // Professional – Bright emerald
+  {a:'#22d25a',f:'#091d12',sf:'#070f0a',t:'#b8f0c4',st:'#88d498',lt:'#68c47e'},
+  // Technical – Teal-green
+  {a:'#16c9a0',f:'#071e16',sf:'#060f0d',t:'#aaf0da',st:'#72d4b4',lt:'#52c09e'},
+  // Academic – Spring green
+  {a:'#50dc85',f:'#0a2016',sf:'#070f0a',t:'#c0f5cc',st:'#8ed8a2',lt:'#6ec882'},
+  // Tech Stack – Jade
+  {a:'#20c984',f:'#081d14',sf:'#060f0a',t:'#a8efcc',st:'#72d4a4',lt:'#52c090'},
+  // Education – Sage
+  {a:'#7dca8e',f:'#0c2216',sf:'#081410',t:'#cdf0d4',st:'#9ed8a8',lt:'#7ec888'},
+];
 
-function layout(root) {
-  let cur = PX;
-  root.ch.forEach((main, mi) => {
-    main.ch.forEach((sub, si) => {
-      sub.ch.forEach((leaf, li) => {
-        leaf.cx = cur + LW/2;
-        cur += LW + (li < sub.ch.length-1 ? LG : 0);
+// ─── LAYOUT ──────────────────────────────────────────────────────────────────
+const LW=132,LH=50,LG=12,SG=36,MG=64,PX=68;
+const Y0=82,Y1=214,Y2=362,Y3=520,SVG_H=630;
+
+function doLayout(root){
+  let cur=PX;
+  root.ch.forEach((main,mi)=>{
+    main.ch.forEach((sub,si)=>{
+      sub.ch.forEach((leaf,li)=>{
+        leaf.cx=cur+LW/2;
+        cur+=LW+(li<sub.ch.length-1?LG:0);
       });
-      sub.cx = sub.ch.reduce((s,l)=>s+l.cx,0)/sub.ch.length;
-      if (si < main.ch.length-1) cur += SG;
+      sub.cx=sub.ch.reduce((s,l)=>s+l.cx,0)/sub.ch.length;
+      if(si<main.ch.length-1)cur+=SG;
     });
-    main.cx = main.ch.reduce((s,c)=>s+c.cx,0)/main.ch.length;
-    if (mi < root.ch.length-1) cur += MG + LG;
+    main.cx=main.ch.reduce((s,c)=>s+c.cx,0)/main.ch.length;
+    if(mi<root.ch.length-1)cur+=MG+LG;
   });
-  root.cx = root.ch.reduce((s,c)=>s+c.cx,0)/root.ch.length;
-  return cur + PX;
+  root.cx=root.ch.reduce((s,c)=>s+c.cx,0)/root.ch.length;
+  return cur+PX;
 }
+const SVG_W=doLayout(TREE);
 
-const W = layout(TREE);
+// ─── SVG SETUP ───────────────────────────────────────────────────────────────
+const svg=document.getElementById('mm');
+svg.setAttribute('width',SVG_W);
+svg.setAttribute('height',SVG_H);
+svg.setAttribute('viewBox',`0 0 ${SVG_W} ${SVG_H}`);
 
-/* ── svg setup ── */
-const svg = document.getElementById('mm');
-svg.setAttribute('width',  W);
-svg.setAttribute('height', H);
-
-/* ── helpers ── */
-function el(tag, attrs={}) {
-  const e = document.createElementNS(NS, tag);
-  for (const [k,v] of Object.entries(attrs)) e.setAttribute(k,v);
+// ─── HELPERS ────────────────────────────────────────────────────────────────
+function el(tag,attrs={}){
+  const e=document.createElementNS(NS,tag);
+  for(const[k,v]of Object.entries(attrs))e.setAttribute(k,v);
   return e;
 }
-
-function box(x,y,w,h,r,fill,stroke,sw=1) {
+function rect(x,y,w,h,r,fill,stroke,sw){
   return el('rect',{x,y,width:w,height:h,rx:r,ry:r,fill,stroke,'stroke-width':sw});
 }
-
-function textBlock(cx,cy,lines,fill,fs,fw='normal') {
-  const g = el('g');
-  const lh = fs * 1.38;
-  lines.forEach((txt,i) => {
-    const t = el('text',{
-      x: cx, y: cy + (i - (lines.length-1)/2) * lh,
-      fill, 'font-size': fs, 'font-weight': fw,
-      'font-family': "'Segoe UI',system-ui,sans-serif",
-      'text-anchor': 'middle', 'dominant-baseline': 'middle'
+function svgText(cx,cy,lines,fill,fs,fw='400'){
+  const g=el('g');
+  const lh=fs*1.44;
+  lines.forEach((s,i)=>{
+    const t=el('text',{
+      x:cx, y:cy+(i-(lines.length-1)/2)*lh,
+      fill,'font-size':fs,'font-weight':fw,
+      'font-family':"'Inter','Segoe UI',system-ui,sans-serif",
+      'text-anchor':'middle','dominant-baseline':'middle',
+      'letter-spacing':'0.01em'
     });
-    t.textContent = txt;
+    t.textContent=s;
     g.appendChild(t);
   });
   return g;
 }
-
-function spline(x1,y1,x2,y2,col,sw) {
-  const m = (y1+y2)/2;
-  return el('path',{
-    d:`M${x1} ${y1} C${x1} ${m} ${x2} ${m} ${x2} ${y2}`,
-    fill:'none', stroke:col, 'stroke-width':sw
-  });
+function svgAnim(el,attr,from,to,dur,begin,spline='0.4 0 0.2 1'){
+  const a=document.createElementNS(NS,'animate');
+  a.setAttribute('attributeName',attr);
+  a.setAttribute('from',from);a.setAttribute('to',to);
+  a.setAttribute('dur',dur+'s');a.setAttribute('begin',begin+'s');
+  a.setAttribute('fill','freeze');
+  a.setAttribute('calcMode','spline');
+  a.setAttribute('keySplines',spline);
+  a.setAttribute('keyTimes','0;1');
+  el.appendChild(a);
 }
 
-/* ── draw ── */
+// ─── DEFS ────────────────────────────────────────────────────────────────────
+const defs=el('defs');
+svg.appendChild(defs);
 
-// background
-svg.appendChild(box(0,0,W,H,0,'#040c07','none'));
-
-// subtle vertical separators between main groups
-let sepCur = PX;
-TREE.ch.forEach((main, mi) => {
-  main.ch.forEach((sub, si) => {
-    sub.ch.forEach((leaf, li) => { sepCur += LW + (li < sub.ch.length-1 ? LG : 0); });
-    if (si < main.ch.length-1) sepCur += SG;
+function linGrad(id,stops,x1='0%',y1='0%',x2='0%',y2='100%'){
+  const g=el('linearGradient',{id,x1,y1,x2,y2});
+  stops.forEach(([off,col,op=1])=>{
+    const s=el('stop',{offset:off,'stop-color':col,'stop-opacity':op});
+    g.appendChild(s);
   });
-  if (mi < TREE.ch.length-1) {
-    const sx = sepCur + (MG+LG)/2;
-    const s = el('line',{x1:sx,y1:Y1-28,x2:sx,y2:H-20,stroke:'#0f2018','stroke-width':1,'stroke-dasharray':'3 6'});
-    svg.appendChild(s);
-    sepCur += MG + LG;
-  }
+  return g;
+}
+function radGrad(id,cx,cy,r,stops,gu='userSpaceOnUse'){
+  const g=el('radialGradient',{id,cx,cy,r,gradientUnits:gu});
+  stops.forEach(([off,col,op=1])=>{
+    const s=el('stop',{offset:off,'stop-color':col,'stop-opacity':op});
+    g.appendChild(s);
+  });
+  return g;
+}
+
+// Root gradient
+defs.appendChild(linGrad('rootFill',[['0%','#1e6642'],['100%','#0c3825']]));
+// Per-branch node gradients
+B.forEach((b,i)=>{
+  defs.appendChild(linGrad(`mFill${i}`,[['0%',lighten(b.f,12)],['100%',b.f]]));
+  defs.appendChild(linGrad(`sFill${i}`,[['0%',lighten(b.sf,10)],['100%',b.sf]]));
+});
+// Ambient radial glow behind root
+defs.appendChild(radGrad('bgGlow',TREE.cx,Y0+40,360,
+  [['0%','#0e3d22',.65],['60%','#040f08',.3],['100%','#020b06',0]]
+));
+// Subtle vignette
+defs.appendChild(radGrad('vig',SVG_W/2,SVG_H/2,Math.max(SVG_W,SVG_H)/1.5,
+  [['0%','#020b06',0],['100%','#010804',.35]]
+));
+
+function lighten(hex,n){
+  const r=Math.min(255,parseInt(hex.slice(1,3),16)+n);
+  const g=Math.min(255,parseInt(hex.slice(3,5),16)+n);
+  const b=Math.min(255,parseInt(hex.slice(5,7),16)+n);
+  return`#${r.toString(16).padStart(2,'0')}${g.toString(16).padStart(2,'0')}${b.toString(16).padStart(2,'0')}`;
+}
+
+// ─── BACKGROUND ──────────────────────────────────────────────────────────────
+svg.appendChild(rect(0,0,SVG_W,SVG_H,0,'#020b06','none',0));
+
+// Ambient glow behind root
+svg.appendChild(el('ellipse',{cx:TREE.cx,cy:Y0+60,rx:400,ry:280,fill:'url(#bgGlow)'}));
+
+// Vignette overlay
+svg.appendChild(rect(0,0,SVG_W,SVG_H,0,'url(#vig)','none',0));
+
+// Subtle dashed level-indicator lines
+[{y:Y1,op:.04},{y:Y2,op:.032},{y:Y3,op:.022}].forEach(({y,op})=>{
+  svg.appendChild(el('line',{
+    x1:PX/2,y1:y,x2:SVG_W-PX/2,y2:y,
+    stroke:'#3a8050','stroke-width':.4,opacity:op,
+    'stroke-dasharray':'4 10'
+  }));
 });
 
-// root
-const RW=218, RH=38;
-svg.appendChild(box(TREE.cx-RW/2, Y0-RH/2, RW, RH, 8, '#183326', '#52a870', 1.5));
-svg.appendChild(textBlock(TREE.cx, Y0, TREE.label, '#d8ffdc', 13.5, '700'));
+// Branch separator lines (midpoint between last leaf of branch N and first leaf of branch N+1)
+TREE.ch.forEach((main,mi)=>{
+  if(mi===TREE.ch.length-1)return;
+  const lastSub=main.ch[main.ch.length-1];
+  const lastLeaf=lastSub.ch[lastSub.ch.length-1];
+  const nextMain=TREE.ch[mi+1];
+  const firstLeaf=nextMain.ch[0].ch[0];
+  const sx=(lastLeaf.cx+firstLeaf.cx)/2;
+  svg.appendChild(el('line',{
+    x1:sx,y1:Y1-50,x2:sx,y2:SVG_H-16,
+    stroke:'#3a8050','stroke-width':.5,opacity:.07,
+    'stroke-dasharray':'3 9'
+  }));
+});
 
-const MW=148, MH=46, SW=138, SH=46;
+// ─── CONNECTIONS (drawn first, behind nodes) ─────────────────────────────────
+const connG=el('g',{id:'conn'});
+svg.appendChild(connG);
 
-TREE.ch.forEach(main => {
-  // root → main
-  svg.appendChild(spline(TREE.cx, Y0+RH/2, main.cx, Y1-MH/2, '#3a7850', 1.3));
-  // main node
-  svg.appendChild(box(main.cx-MW/2, Y1-MH/2, MW, MH, 6, '#0f2318', '#36714d'));
-  svg.appendChild(textBlock(main.cx, Y1, main.label, '#b8e4c0', 11.5, '600'));
+const RW=234,RH=44,MW=154,MH=50,SW=142;
 
-  main.ch.forEach(sub => {
-    // main → sub
-    svg.appendChild(spline(main.cx, Y1+MH/2, sub.cx, Y2-SH/2, '#275c3a', 1));
-    // sub node
-    svg.appendChild(box(sub.cx-SW/2, Y2-SH/2, SW, SH, 5, '#091710', '#204d2e'));
-    svg.appendChild(textBlock(sub.cx, Y2, sub.label, '#96c49e', 10.5));
+// Track paths for getTotalLength() measurement
+const pendingPaths=[];
 
-    sub.ch.forEach(leaf => {
-      // sub → leaf
-      svg.appendChild(spline(sub.cx, Y2+SH/2, leaf.cx, Y3-LH/2, '#183e24', 0.9));
-      // leaf node
-      svg.appendChild(box(leaf.cx-LW/2, Y3-LH/2, LW, LH, 4, '#060f09', '#1a3e22'));
-      svg.appendChild(textBlock(leaf.cx, Y3, leaf.label, '#7cb585', 9.5));
+function mkConn(x1,y1,x2,y2,stroke,sw,delay,opacity=.82){
+  const mid=(y1+y2)/2;
+  const p=el('path',{
+    d:`M${x1},${y1} C${x1},${mid} ${x2},${mid} ${x2},${y2}`,
+    fill:'none',stroke,'stroke-width':sw,
+    'stroke-linecap':'round',opacity:0
+  });
+  connG.appendChild(p);
+  pendingPaths.push({p,delay,opacity});
+  return p;
+}
+
+TREE.ch.forEach((main,mi)=>{
+  const b=B[mi],bd=.38+mi*.06;
+  mkConn(TREE.cx,Y0+RH/2,main.cx,Y1-MH/2,b.a,1.5,bd);
+  main.ch.forEach((sub,si)=>{
+    const d2=bd+.26+si*.04;
+    mkConn(main.cx,Y1+MH/2,sub.cx,Y2-LH/2,b.a,1,d2);
+    sub.ch.forEach((leaf,li)=>{
+      mkConn(sub.cx,Y2+LH/2,leaf.cx,Y3-LH/2,b.a,.65,d2+.26+li*.03,.72);
     });
   });
 });
 
-/* ── pan by drag ── */
-const stage = document.getElementById('stage');
-let dragging=false, ox=0, oy=0, sl=0, st=0;
-stage.addEventListener('mousedown', e=>{
-  dragging=true; ox=e.clientX; oy=e.clientY;
-  sl=stage.scrollLeft; st=stage.scrollTop;
+// ─── NODES ──────────────────────────────────────────────────────────────────
+const nodeG=el('g',{id:'nodes'});
+svg.appendChild(nodeG);
+
+function mkNode(cx,cy,w,h,r,fill,stroke,sw,lines,tf,fs,fw,delay,cls=''){
+  const g=el('g',{class:`n ${cls}`});
+  g.style.cssText=`animation:fadeUp .44s ${delay}s cubic-bezier(.4,0,.2,1) both`;
+
+  // Soft outer glow
+  const glow=rect(cx-w/2-3,cy-h/2-3,w+6,h+6,r+3,'none',stroke,sw*4);
+  glow.setAttribute('opacity','.06');
+  glow.setAttribute('pointer-events','none');
+  g.appendChild(glow);
+
+  // Main rect
+  const box=rect(cx-w/2,cy-h/2,w,h,r,fill,stroke,sw);
+  g.appendChild(box);
+
+  // Inner highlight (top edge shimmer)
+  const hl=rect(cx-w/2+1,cy-h/2+1,w-2,h*.36,Math.max(r-1,2),'rgba(255,255,255,.045)','none',0);
+  hl.setAttribute('pointer-events','none');
+  g.appendChild(hl);
+
+  g.appendChild(svgText(cx,cy,lines,tf,fs,fw));
+  return g;
+}
+
+// ── Root ──
+const rootG=el('g',{class:'root-n n'});
+rootG.style.cssText='animation:fadeUp .55s .08s cubic-bezier(.4,0,.2,1) both';
+
+// Pulsing rings
+[[130,.12,1,'3.6s','0s'],[164,.06,.5,'3.6s','.4s']].forEach(([r,op,sw,dur,offset])=>{
+  const ring=el('circle',{cx:TREE.cx,cy:Y0,r,fill:'none',stroke:'#52c878','stroke-width':sw,opacity:0});
+  svgAnim(ring,'r',r,r+(sw===1?16:22),dur,.08);
+  svgAnim(ring,'opacity',0,op,'.6s',.08,'0.4 0 0.6 1');
+  // Continuous pulse after appear
+  const pa=document.createElementNS(NS,'animate');
+  pa.setAttribute('attributeName','opacity');
+  pa.setAttribute('values',`${op};${op*2.2};${op}`);
+  pa.setAttribute('dur',dur);pa.setAttribute('begin',`${.7+parseFloat(offset)}s`);
+  pa.setAttribute('repeatCount','indefinite');
+  pa.setAttribute('calcMode','spline');
+  pa.setAttribute('keySplines','0.4 0 0.6 1;0.4 0 0.6 1');
+  pa.setAttribute('keyTimes','0;0.5;1');
+  ring.appendChild(pa);
+  rootG.appendChild(ring);
 });
-document.addEventListener('mouseup', ()=>dragging=false);
-document.addEventListener('mousemove', e=>{
-  if(!dragging) return; e.preventDefault();
-  stage.scrollLeft = sl - (e.clientX-ox);
-  stage.scrollTop  = st - (e.clientY-oy);
+
+// Root glow halo
+const rootHalo=rect(TREE.cx-RW/2-6,Y0-RH/2-6,RW+12,RH+12,16,'none','#52c878',5);
+rootHalo.setAttribute('opacity','.08');
+rootHalo.setAttribute('pointer-events','none');
+rootG.appendChild(rootHalo);
+
+// Root rect + highlight
+const rootBox=rect(TREE.cx-RW/2,Y0-RH/2,RW,RH,10,'url(#rootFill)','#52c878',1.8);
+rootG.appendChild(rootBox);
+const rootHL=rect(TREE.cx-RW/2+2,Y0-RH/2+2,RW-4,RH*.38,8,'rgba(255,255,255,.07)','none',0);
+rootHL.setAttribute('pointer-events','none');
+rootG.appendChild(rootHL);
+rootG.appendChild(svgText(TREE.cx,Y0,TREE.label,'#e4fff0',14.5,'700'));
+nodeG.appendChild(rootG);
+
+// ── Main / Sub / Leaf ──
+TREE.ch.forEach((main,mi)=>{
+  const b=B[mi],bc=`b${mi}`,bd=.52+mi*.07;
+  nodeG.appendChild(mkNode(main.cx,Y1,MW,MH,7,`url(#mFill${mi})`,b.a,1.5,main.label,b.t,12.5,'600',bd,bc));
+  main.ch.forEach((sub,si)=>{
+    const d2=bd+.28+si*.05;
+    nodeG.appendChild(mkNode(sub.cx,Y2,SW,LH,6,`url(#sFill${mi})`,b.a,.9,sub.label,b.st,11,'500',d2,bc));
+    sub.ch.forEach((leaf,li)=>{
+      nodeG.appendChild(mkNode(leaf.cx,Y3,LW,LH,5,'#060e09',b.a,.6,leaf.label,b.lt,10,'400',d2+.28+li*.035,bc));
+    });
+  });
 });
+
+// ─── ANIMATE CONNECTIONS (after DOM layout) ──────────────────────────────────
+requestAnimationFrame(()=>{
+  requestAnimationFrame(()=>{
+    pendingPaths.forEach(({p,delay,opacity})=>{
+      const len=Math.ceil(p.getTotalLength())+4;
+      p.setAttribute('stroke-dasharray',len);
+      p.setAttribute('stroke-dashoffset',len);
+      svgAnim(p,'stroke-dashoffset',len,0,.62,delay,'0.4 0 0.2 1');
+      svgAnim(p,'opacity',0,opacity,.5,delay,'0.4 0 0.2 1');
+    });
+  });
+});
+
+// ─── PARTICLE CANVAS ─────────────────────────────────────────────────────────
+const bgC=document.getElementById('bg');
+const bgX=bgC.getContext('2d');
+function resizeBg(){bgC.width=window.innerWidth;bgC.height=window.innerHeight}
+resizeBg();
+window.addEventListener('resize',resizeBg);
+
+const PARTS=Array.from({length:65},()=>({
+  x:Math.random()*window.innerWidth,
+  y:Math.random()*window.innerHeight,
+  r:Math.random()*1.1+.2,
+  vx:(Math.random()-.5)*.14,
+  vy:-(Math.random()*.22+.04),
+  a:Math.random()*.3+.07,
+  ad:Math.random()>.5?1:-1,
+  as:Math.random()*.0025+.001,
+}));
+
+(function animParts(){
+  bgX.clearRect(0,0,bgC.width,bgC.height);
+  PARTS.forEach(p=>{
+    p.x+=p.vx; p.y+=p.vy;
+    p.a+=p.ad*p.as;
+    if(p.a>.48||p.a<.05)p.ad*=-1;
+    if(p.y<-3){p.y=bgC.height+3;p.x=Math.random()*bgC.width}
+    if(p.x<-3)p.x=bgC.width+3;
+    if(p.x>bgC.width+3)p.x=-3;
+    bgX.beginPath();
+    bgX.arc(p.x,p.y,p.r,0,Math.PI*2);
+    bgX.fillStyle=`rgba(${82+Math.random()*24},${195+Math.random()*42},${100+Math.random()*28},${p.a})`;
+    bgX.fill();
+  });
+  requestAnimationFrame(animParts);
+})();
+
+// ─── PAN + ZOOM ──────────────────────────────────────────────────────────────
+const vp=document.getElementById('vp');
+const zdEl=document.getElementById('zd');
+const MIN_S=.1,MAX_S=4.5;
+
+let tx=0,ty=0,sc=1;  // rendered
+let gx=0,gy=0,gs=1;  // target (lerped)
+let drag=false,mx0=0,my0=0,tx0=0,ty0=0;
+let vx=0,vy=0,lmx=0,lmy=0;
+
+function applyT(snap=false){
+  if(snap){tx=gx;ty=gy;sc=gs}
+  svg.style.transform=`translate(${tx}px,${ty}px) scale(${sc})`;
+  zdEl.textContent=Math.round(sc*100)+'%';
+}
+
+function fitScreen(){
+  const vw=window.innerWidth,vh=window.innerHeight;
+  const s=Math.min((vw-40)/SVG_W,(vh-40)/SVG_H,1.1);
+  gx=(vw-SVG_W*s)/2; gy=(vh-SVG_H*s)/2; gs=s;
+}
+fitScreen(); applyT(true);
+
+// Smooth loop with momentum
+(function loop(){
+  const E=.13;
+  if(!drag){
+    if(Math.abs(vx)>.2||Math.abs(vy)>.2){gx+=vx;gy+=vy;vx*=.87;vy*=.87}
+    tx+=(gx-tx)*E; ty+=(gy-ty)*E; sc+=(gs-sc)*E;
+    applyT();
+  }
+  requestAnimationFrame(loop);
+})();
+
+// Mouse
+vp.addEventListener('mousedown',e=>{
+  drag=true;vp.classList.add('drag');
+  mx0=e.clientX;my0=e.clientY;tx0=tx;ty0=ty;
+  lmx=e.clientX;lmy=e.clientY;vx=0;vy=0;
+});
+document.addEventListener('mouseup',()=>{drag=false;vp.classList.remove('drag')});
+document.addEventListener('mousemove',e=>{
+  if(!drag)return;
+  vx=e.clientX-lmx; vy=e.clientY-lmy;
+  lmx=e.clientX; lmy=e.clientY;
+  tx=tx0+(e.clientX-mx0); ty=ty0+(e.clientY-my0);
+  gx=tx; gy=ty; applyT(true);
+});
+
+// Wheel zoom toward cursor
+vp.addEventListener('wheel',e=>{
+  e.preventDefault();
+  const f=e.deltaY>0?.9:1.11;
+  const ns=Math.max(MIN_S,Math.min(MAX_S,gs*f));
+  const rect=vp.getBoundingClientRect();
+  const px=e.clientX-rect.left,py=e.clientY-rect.top;
+  gx=px-(px-gx)*(ns/gs); gy=py-(py-gy)*(ns/gs); gs=ns;
+},{passive:false});
+
+// Touch
+let ptd=0,pmx=0,pmy=0;
+vp.addEventListener('touchstart',e=>{
+  e.preventDefault();
+  if(e.touches.length===1){
+    drag=true;
+    mx0=e.touches[0].clientX; my0=e.touches[0].clientY; tx0=tx; ty0=ty; vx=0;vy=0;
+  }else if(e.touches.length===2){
+    drag=false;
+    ptd=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+    pmx=(e.touches[0].clientX+e.touches[1].clientX)/2;
+    pmy=(e.touches[0].clientY+e.touches[1].clientY)/2;
+  }
+},{passive:false});
+
+vp.addEventListener('touchmove',e=>{
+  e.preventDefault();
+  if(e.touches.length===1&&drag){
+    tx=tx0+(e.touches[0].clientX-mx0); ty=ty0+(e.touches[0].clientY-my0);
+    gx=tx;gy=ty;applyT(true);
+  }else if(e.touches.length===2){
+    const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+    const f=d/ptd;
+    const ns=Math.max(MIN_S,Math.min(MAX_S,gs*f));
+    const nmx=(e.touches[0].clientX+e.touches[1].clientX)/2;
+    const nmy=(e.touches[0].clientY+e.touches[1].clientY)/2;
+    gx=nmx-(pmx-gx)*f-(pmx-nmx); gy=nmy-(pmy-gy)*f-(pmy-nmy); gs=ns;
+    ptd=d;pmx=nmx;pmy=nmy;applyT(true);
+  }
+},{passive:false});
+
+vp.addEventListener('touchend',()=>{drag=false});
+
+// Buttons
+function zoomBy(f){
+  const cx=window.innerWidth/2,cy=window.innerHeight/2;
+  const ns=Math.max(MIN_S,Math.min(MAX_S,gs*f));
+  gx=cx-(cx-gx)*(ns/gs); gy=cy-(cy-gy)*(ns/gs); gs=ns;
+}
+document.getElementById('zi').addEventListener('click',()=>zoomBy(1.28));
+document.getElementById('zo').addEventListener('click',()=>zoomBy(1/1.28));
+document.getElementById('zf').addEventListener('click',()=>{fitScreen()});
+
+// Keyboard
+document.addEventListener('keydown',e=>{
+  if(e.key==='='||e.key==='+')zoomBy(1.2);
+  if(e.key==='-')zoomBy(1/1.2);
+  if(e.key==='0'){fitScreen()}
+  const P=42/gs;
+  if(e.key==='ArrowLeft') gx+=P;
+  if(e.key==='ArrowRight')gx-=P;
+  if(e.key==='ArrowUp')   gy+=P;
+  if(e.key==='ArrowDown') gy-=P;
+});
+
+window.addEventListener('resize',()=>{resizeBg();fitScreen();applyT(true)});
 </script>
 </body>
 </html>
